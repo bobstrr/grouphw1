@@ -1,30 +1,23 @@
-initial_bites = int(input())
-queue = []
-while True:
-    command = input()
-    if command == "Start":
-        break
-    queue.append(command)
+food_for_the_day = int(input("food for the day: "))
+orders = [int(x) for x in input("enter orders with spaces: ").split(" ")]
+total_orders = 0
+current_number = 0
+max_number = 0
 
-while True:
-    command = input()
-    if command == "End":
-        break
+for order in orders:
+    total_orders += order
+    current_number = order
+    if current_number > max_number:
+        max_number = current_number
 
-    if command.startswith("refill"):
-        _, bites_to_add = command.split()
-        bites_to_add = int(bites_to_add)
-        initial_bites += bites_to_add
+for order in orders:
+    if order <= food_for_the_day:
+        food_for_the_day -= order
     else:
-        bites_needed = int(command)
-        if queue:
-            person_name = queue[0]
-            if bites_needed <= initial_bites:
-                print(f"{person_name} takes {bites_needed} bites")
-                initial_bites -= bites_needed
-                queue.pop(0)
-            else:
-                print(f"{person_name} must wait")
-                queue.pop(0)
-
-print(f"Leftover bites: {initial_bites}")
+        remaining_orders = orders[orders.index(order):]
+        print(f"Biggest order: {max_number}")
+        print(f"Remaining orders: {remaining_orders}")
+        break
+else:
+    print(f"Biggest order: {max_number}")
+    print("Orders complete")
